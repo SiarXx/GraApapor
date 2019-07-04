@@ -2,12 +2,15 @@ package controllers
 
 import models.PlayerModel
 
-class PlayerController(val player: PlayerModel){
+class PlayerController(private val playerModel: PlayerModel){
 
-    fun setGold(amount: Int){
-        player.gold+=amount
+    fun increaseGoldByAmount(amount: Int){
+        playerModel.gold+=amount
     }
-    fun setDay(){
-        player.currDay++
+    fun decreaseGoldByAmount(amount: Int){
+        playerModel.gold-=amount
+    }
+    fun increaseDay(){
+        playerModel.currDay+=1
     }
 }

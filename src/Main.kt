@@ -1,13 +1,16 @@
 import controllers.MenuController
 import models.MenuModel
 import views.MenuView
+import java.util.*
 
 fun main(){
-    var mV: MenuView = MenuView()
-    var mM: MenuModel = MenuModel()
-    var mC: MenuController = MenuController(mM,mV)
+    val sc = Scanner(System.`in`)
+    val menuModel = MenuModel()
+    val menuView = MenuView(menuModel)
+    val menuController: MenuController
+    menuController = MenuController(menuModel,menuView,sc)
 
-    mC.start()
-
+    menuController.start()
+    sc.close()
 
 }

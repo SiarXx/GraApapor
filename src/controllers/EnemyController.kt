@@ -2,25 +2,29 @@ package controllers
 
 import models.BaseModel
 import models.EnemyModel
+import views.GameView
 
-class EnemyController(val enemy: EnemyModel) {
+class EnemyController(val enemyModel: EnemyModel, val gameView: GameView) {
 
-    fun setStats(level: Int) {
+    private fun setStats(level: Int) {
         if (level != 0) {
             for (x in 1..level) {
-                enemy.dmg += (Math.random() * 3).toInt()
-                enemy.health += 1
+                enemyModel.dmg += (Math.random() * 3).toInt()
+                enemyModel.health += 2
             }
         }
     }
-    fun fight(base: BaseModel, player: PlayerController){
+
+    fun fight(baseModel: BaseModel, baseC: BaseController) {
+        gameView.showEnemyStartInfo()
+
         do {
-            enemy.health-=(base.fenceLvl*Math.random()*3).toInt()
-            attack(base,player)
-            if (enemy.health == 0)
-                enemy.lvl++
-        }while (enemy.health != 0)
-        setStats(enemy.lvl)
+            enemyModel.health -= (baseModel.fenceLvl * Math.random() * 3).toInt()
+            baseC.takeDmg(enemyModel.dmg)
+            gameView.attackLog(baseModel)
+        } while (enemyModel.health > 0 && baseModel.villagersNum > 0)
+        enemyModel.lvl += 1
+        enemyModel.health = 10
+        setStats(enemyModel.lvl)
     }
-    fun attack(base: BaseModel, player: PlayerController){}
 }
